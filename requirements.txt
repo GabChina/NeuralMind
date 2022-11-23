@@ -1,0 +1,6 @@
+datasets
+tokenizers
+transformers
+seqeval
+ray[tune]
+matplotlib>=3.4.0
