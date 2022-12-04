@@ -1,12 +1,23 @@
 import numpy as np
 from transformers import AutoTokenizer, TrainingArguments, Trainer
 from transformers import AutoModelForTokenClassification, DataCollatorForTokenClassification
-from utils import json2dict
 
+#TODO: untested class
 class NM_Trainer():
-    def __init__(self, data_path: str, metric, label_names: str,
-                entities_names: str = None, tokenizer = None) -> None:
-        self.dataset = [doc for doc in json2dict(data_path)]
+    """Trainer for NM dataset.
+
+    Expects the train and test datasets to already be tokenized and balanced.
+    """
+    def __init__(self,
+                treino: dict,
+                teste: dict,
+                label_names: str,
+                metric,
+                entities_names: str = None,
+                tokenizer = None
+                ) -> None:
+        self.treino = treino
+        self.teste = teste
         self.metric = metric
         self.label_names = label_names
         self.entities_names = entities_names
@@ -14,9 +25,13 @@ class NM_Trainer():
         if tokenizer is None:
             self.tokenizer = AutoTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased',
                                                             do_lower_case=False)
+        self.trainer = self.__get_trainer()
 
-    def return_metrics(self, trainer, teste) -> dict:
-        predictions, labels, _ = trainer.predict(teste)
+    def train(self):
+        return self.trainer.train()
+
+    def return_metrics(self) -> dict:
+        predictions, labels, _ = self.trainer.predict(self.teste)
         predictions = np.argmax(predictions, axis=2)
 
         # Remove ignored index (special tokens)
@@ -31,7 +46,7 @@ class NM_Trainer():
 
         return self.metric.compute(predictions=true_predictions, references=true_labels)
 
-    def get_trainer(self, treino, teste, tokenizer):
+    def __get_trainer(self):
         def model_init():
             return AutoModelForTokenClassification.from_pretrained("neuralmind/bert-base-portuguese-cased", num_labels=7)
 
@@ -58,14 +73,14 @@ class NM_Trainer():
                     #"accuracy": results["overall_accuracy"],
                     }
 
-        data_collator = DataCollatorForTokenClassification(tokenizer)
+        data_collator = DataCollatorForTokenClassification(self.tokenizer)
         hyperparameters={
             'learning_rate': 4.076831342095183e-05,
             'num_train_epochs': 3,
             'per_device_train_batch_size': 4
         }
         batch_size = hyperparameters['per_device_train_batch_size']
-        logging_steps = len(treino) // batch_size
+        logging_steps = len(self.treino) // batch_size
         epochs = hyperparameters['num_train_epochs']
         training_args = TrainingArguments(
             output_dir = "results",
@@ -83,10 +98,10 @@ class NM_Trainer():
         trainer = Trainer(
             model_init=model_init,
             args=training_args,
-            train_dataset=treino,
-            eval_dataset=teste,
+            train_dataset=self.treino,
+            eval_dataset=self.teste,
             data_collator=data_collator,
-            tokenizer=tokenizer,
+            tokenizer=self.tokenizer,
             compute_metrics=compute_metrics
         )
 
