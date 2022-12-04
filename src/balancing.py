@@ -1,3 +1,18 @@
+def balance_datasets(d1: list[dict], d2: list[dict], upper_limit=0.75,
+                    balancing_range=0.2, names_list=None):
+    """Balance NM NER dataset
+    """
+    # entities in each dataset
+    entities_d1, entities_d2 = (__count_entities(d1, names_list),
+                                __count_entities(d2, names_list))
+
+    __realizar_correcao(d1, d2, entities_d1, entities_d2,
+                        upper_limit=upper_limit,
+                        balancing_range=balancing_range)
+
+    __remove_null(d1); __remove_null(d2)
+
+
 def __count_entities(dataset, names_list=None):
     """Returns a entities dict in the format:
     {
@@ -82,18 +97,3 @@ def __remove_null(dataset):
     for doc in reversed(dataset):
         if doc is None:
             dataset.remove(doc)
-
-
-def balance_datasets(d1: list[dict], d2: list[dict], upper_limit=0.75,
-                    balancing_range=0.2, names_list=None):
-    """Balance NM NER dataset
-    """
-    # entities in each dataset
-    entities_d1, entities_d2 = (__count_entities(d1, names_list),
-                                __count_entities(d2, names_list))
-
-    __realizar_correcao(d1, d2, entities_d1, entities_d2,
-                        upper_limit=upper_limit,
-                        balancing_range=balancing_range)
-
-    __remove_null(d1); __remove_null(d2)
