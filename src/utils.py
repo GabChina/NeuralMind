@@ -23,3 +23,25 @@ def pandas2json(df, fname: str):
         for text in texts:
             json.dump(text, file, ensure_ascii=False)
             file.write('\n')
+
+def json2dict(fname: str, mode='r', encoding='utf8'):
+    """Loads data from a json file into a dict object
+    """
+    with open(fname, mode, encoding=encoding) as jfile:
+        data = json.load(jfile)
+
+    return data
+
+def dict2json(data: list[dict], fname: str):
+    """Saves the data in a json file
+
+    Args:
+        data (list[dict]): data in NM format:
+            {'text': str,
+            'entities': list[{'start': int, 'end': int, 'label': str, 'value': str}],
+            'anottation_status': str,
+            'notes': str}
+        fname (str): output file
+    """
+    with open(fname, 'w', encoding='utf8') as file:
+        json.dump(data, file, ensure_ascii=False)
