@@ -75,6 +75,7 @@ def __balance_entity(destination, source, entities_dest, entities_src,
                     doc[entity_name] = 0
                 break
 
+
 def __realizar_correcao(d1, d2, entities_d1, entities_d2, upper_limit=0.75,
                         balancing_range=0.10):
     for entity in entities_d1['names']:

@@ -12,6 +12,7 @@ def get_entities_percentage(entities_d1, entities_d2, print_results=True):
 
     return text
 
+
 def get_entities_count(entities_d1, print_results=True):
     text = ''
     for count, entity in zip(entities_d1['ent_count'].values(), entities_d1['names']):
