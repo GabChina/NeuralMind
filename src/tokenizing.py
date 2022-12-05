@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def get_ent_label(entity_name: str) -> int:
     label_n = 0
     if entity_name=='CABECALHO':
@@ -9,6 +10,7 @@ def get_ent_label(entity_name: str) -> int:
     else:
         label_n=5
     return label_n
+
 
 def create_label_vector(doc, input_ids, tokenizer):
     vetor=np.zeros(512)
@@ -30,6 +32,7 @@ def create_label_vector(doc, input_ids, tokenizer):
             vetor[idx] = -100
 
     return vetor.tolist()
+
 
 def tokenize_dataset(dataset, tokenizer, stride=0):
     tokenized_dataset = []

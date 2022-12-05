@@ -22,6 +22,7 @@ def pandas2json(df, fname: str):
             json.dump(text, file, ensure_ascii=False)
             file.write('\n')
 
+
 def json2dict(fname: str, mode='r', encoding='utf8'):
     """Loads data from a json file into a dict object
     """
@@ -29,6 +30,7 @@ def json2dict(fname: str, mode='r', encoding='utf8'):
         data = json.load(jfile)
 
     return data
+
 
 def dict2json(data: list[dict], fname: str):
     """Saves the data in a json file
