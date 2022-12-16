@@ -1,6 +1,7 @@
-datasets
-tokenizers
-transformers
-seqeval
-ray[tune]
-matplotlib>=3.4.0
+datasets==2.7.1
+ray[tune]==2.2.0
+seqeval==1.2.2
+tokenizers==0.13.2
+transformers==4.25.1
+numpyencoder==0.3.0
+# matplotlib>=3.4.0
