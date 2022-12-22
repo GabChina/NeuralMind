@@ -88,7 +88,7 @@ def test_with_checkpoints(params_list,
             dict2json(test_results, fname, sort_keys=False, indent=2)
 
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    dict2json(test_results, f"{output_dir}{output_name}_{timestr}_final.json',
+    dict2json(test_results, f"{output_dir}{output_name}_{timestr}_final.json",
                 sort_keys=False, indent=2)
 
     return test_results
