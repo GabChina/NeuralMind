@@ -84,11 +84,11 @@ def test_with_checkpoints(params_list,
         }
         if run in checkpoints:
             timestr = time.strftime("%Y%m%d-%H%M%S")
-            fname = f"{output_dir}" + f"{output_name}_{timestr}_run{run}.json"
+            fname = f"{output_dir}{output_name}_{timestr}_run{run}.json"
             dict2json(test_results, fname, sort_keys=False, indent=2)
 
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    dict2json(test_results, f'{output_dir}/{output_name}_{timestr}_final.json',
+    dict2json(test_results, f"{output_dir}{output_name}_{timestr}_final.json',
                 sort_keys=False, indent=2)
 
     return test_results
