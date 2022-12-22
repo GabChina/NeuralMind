@@ -5,7 +5,7 @@ from datasets import load_metric
 from transformers import AutoTokenizer
 
 from pipeline import test_with_checkpoints
-from utils import json2dict
+from src.utils import json2dict
 
 if __name__ == "__main__":
     data_path = "NM_dataset.json"
