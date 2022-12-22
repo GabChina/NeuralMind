@@ -1,4 +1,5 @@
 import itertools
+import pathlib
 
 import numpy as np
 from datasets import load_metric
@@ -8,7 +9,8 @@ from pipeline import test_with_checkpoints
 from src.utils import json2dict
 
 if __name__ == "__main__":
-    data_path = "NM_dataset.json"
+    current_dir = str(pathlib.Path(__file__).parent.resolve()) + "/"
+    data_path = current_dir + "NM_dataset.json"
     dataset = [doc for doc in json2dict(data_path)]
     tokenizer = AutoTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased', do_lower_case=False)
     metric = load_metric("seqeval")
@@ -36,9 +38,10 @@ if __name__ == "__main__":
     params_list = [{k:v for k,v in zip(params_used, p)} for p in params_list]
 
     test_with_checkpoints(params_list=params_list,
-                            output_name='checkpoints/SWNM-dataset',
+                            output_name='SWNM-dataset',
                             dataset=dataset,
                             label_names=label_names,
                             metric=metric,
                             entities_names=entities_names,
+                            output_dir=current_dir+"checkpoints/",
                             step=0.1)
