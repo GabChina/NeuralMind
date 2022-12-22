@@ -1,13 +1,14 @@
+import os
 import time
 
 from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from transformers import AutoTokenizer
 
-from balancing import balance_datasets
-from NM_Trainer import NM_Trainer
+from src.balancing import balance_datasets
+from src.NM_Trainer import NM_Trainer
+from src.tokenizing import tokenize_dataset
 from src.utils import dict2json
-from tokenizing import tokenize_dataset
 
 
 def run_test(
