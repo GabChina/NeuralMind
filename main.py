@@ -1,7 +1,11 @@
-from pipeline import run_test
-from utils import json2dict
-from transformers import AutoTokenizer
+import itertools
+
+import numpy as np
 from datasets import load_metric
+from transformers import AutoTokenizer
+
+from pipeline import test_with_checkpoints
+from utils import json2dict
 
 if __name__ == "__main__":
     data_path = "NM_dataset.json"
@@ -20,21 +24,21 @@ if __name__ == "__main__":
     }
 
     test_hyperparameters = {
-        'balance': True,
-        'stride': 0,
-        'tokenizer': tokenizer,
-        'test_size': 0.2,
-        'random_state': 42,
-        'balancing_upper_limit': 0.75,
-        'balancing_range': 0.20,
+        #"balance": [True, False],
+        "balancing_range": [round(i,2) for i in np.arange(0.3, 0.4, 0.05)],
+        "balancing_upper_limit": [round(i,2) for i in np.arange(0.65, 0.9, 0.1)],
+        "test_size": [round(i,2) for i in np.arange(0.1, 0.4, 0.05)],
+        "stride": [0, 128, 256],
     }
 
-    test_results = run_test(
-        dataset=dataset,
-        label_names=label_names,
-        metric=metric,
-        entities_names=entities_names,
-        **test_hyperparameters
-    )
+    params_used = [k for k in test_hyperparameters]
+    params_list = list(itertools.product(*(test_hyperparameters.values())))
+    params_list = [{k:v for k,v in zip(params_used, p)} for p in params_list]
 
-    #TODO: Add some way to save the results in a folder
+    test_with_checkpoints(params_list=params_list,
+                            output_name='checkpoints/SWNM-dataset',
+                            dataset=dataset,
+                            label_names=label_names,
+                            metric=metric,
+                            entities_names=entities_names,
+                            step=0.1)
