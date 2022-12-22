@@ -1,11 +1,11 @@
 import numpy as np
-from transformers import AutoTokenizer, TrainingArguments, Trainer
-from transformers import AutoModelForTokenClassification, DataCollatorForTokenClassification
+from transformers import (AutoModelForTokenClassification, AutoTokenizer,
+                          DataCollatorForTokenClassification, Trainer,
+                          TrainingArguments)
 
-#TODO: untested class
+
 class NM_Trainer():
     """Trainer for NM dataset.
-
     Expects the train and test datasets to already be tokenized and balanced.
     """
     def __init__(self,
