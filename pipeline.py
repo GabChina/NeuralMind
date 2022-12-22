@@ -60,11 +60,14 @@ def test_with_checkpoints(params_list,
                         label_names,
                         metric,
                         entities_names=None,
+                        output_dir='checkpoints',
                         step=0.1):
     step = round(len(params_list)*step)
     checkpoints = [x for x in range(step, len(params_list)-step, step)]
     test_results = {}
     run = 0
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     for parameters in params_list:
         result = run_test(
             dataset=dataset,
@@ -80,11 +83,11 @@ def test_with_checkpoints(params_list,
         }
         if run in checkpoints:
             timestr = time.strftime("%Y%m%d-%H%M%S")
-            fname = f"{output_name}_{timestr}_run{run}.json"
+            fname = f"{output_dir}/{output_name}_{timestr}_run{run}.json"
             dict2json(test_results, fname, sort_keys=False, indent=2)
 
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    dict2json(test_results, f'{output_name}_{timestr}_final.json',
+    dict2json(test_results, f'{output_dir}/{output_name}_{timestr}_final.json',
                 sort_keys=False, indent=2)
 
     return test_results
