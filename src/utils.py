@@ -1,9 +1,10 @@
 import json
 
+from numpyencoder import NumpyEncoder
+
 
 def pandas2json(df, fname: str):
     """Convert pandas to json file
-
     Args:
         df (pd.DataFrame): Dataframe Object
         fname (str): file name
@@ -32,9 +33,9 @@ def json2dict(fname: str, mode='r', encoding='utf8'):
     return data
 
 
-def dict2json(data: list[dict], fname: str):
+def dict2json(data: list[dict], fname: str,
+                sort_keys=False, indent=None):
     """Saves the data in a json file
-
     Args:
         data (list[dict]): data in NM format:
             {'text': str,
@@ -43,5 +44,8 @@ def dict2json(data: list[dict], fname: str):
             'notes': str}
         fname (str): output file
     """
+
     with open(fname, 'w', encoding='utf8') as file:
-        json.dump(data, file, ensure_ascii=False)
+        json.dump(data, file, ensure_ascii=False,
+                    sort_keys=sort_keys, indent=indent,
+                    cls=NumpyEncoder)
