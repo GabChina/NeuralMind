@@ -3,9 +3,10 @@ import pathlib
 
 import numpy as np
 from datasets import load_metric
-from pipeline import test_with_checkpoints
-from src.utils import json2dict
 from transformers import AutoTokenizer
+
+from pipeline import test_with_checkpoints
+from src.utils import 
 
 if __name__ == "__main__":
     current_dir = str(pathlib.Path(__file__).parent.resolve()) + "/"

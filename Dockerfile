@@ -1,6 +1,9 @@
 # Cuda version 10.2.89
 FROM huggingface/transformers-pytorch-gpu:4.9.1
 
+# Upgrade pip
+RUN python3 -m pip install --upgrade pip
+
 # Save files from host
 COPY ./swnm /home/app
 
