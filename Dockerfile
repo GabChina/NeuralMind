@@ -8,4 +8,4 @@ COPY ./swnm /home/app
 WORKDIR "/home/app"
 
 # Pip install requirements
-RUN python -m pip install -r swnm/requirements.txt
+RUN python3 -m pip install -r requirements.txt
