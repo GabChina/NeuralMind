@@ -44,4 +44,4 @@ if __name__ == "__main__":
                             metric=metric,
                             entities_names=entities_names,
                             output_dir=current_dir+"checkpoints/",
-                            step=0.1)
+                            step=0.05)
