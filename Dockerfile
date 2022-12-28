@@ -1,5 +1,5 @@
-# Import base image
-FROM huggingface/transformers-pytorch-gpu
+# Cuda version 10.2.89
+FROM huggingface/transformers-pytorch-gpu:4.9.1
 
 # Save files from host
 COPY ./swnm /home/app
