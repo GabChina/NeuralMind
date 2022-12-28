@@ -1,4 +1,5 @@
 datasets==2.7.1
+gdown
 ray[tune]==2.2.0
 seqeval==1.2.2
 tensorflow-gpu
