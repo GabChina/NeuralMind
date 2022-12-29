@@ -3,6 +3,7 @@ import time
 
 from sklearn.model_selection import train_test_split
 from transformers import AutoTokenizer
+import wandb
 
 from src.balancing import balance_datasets
 from src.NM_Trainer import NM_Trainer
@@ -66,7 +67,9 @@ def test_with_checkpoints(params_list,
                         entities_names=None,
                         output_dir='checkpoints/',
                         step=0.1,
-                        use_wandb=False):
+                        use_wandb=False,
+                        wandb_config=None,
+                        ):
     step = round(len(params_list)*step)
     checkpoints = [x for x in range(step, len(params_list)-step, step)]
     test_results = {}
@@ -77,6 +80,10 @@ def test_with_checkpoints(params_list,
         timestr = time.strftime("%Y%m%d-%H%M%S")
         run += 1
         wandb_run_name = f"{timestr}_{run}_" + "_".join([f'{k}-{v}' for k,v in parameters.items()])
+        
+        if use_wandb:
+            wandb_run = wandb.init(reinit=True, config=wandb_config)
+
         result = run_test(
             dataset=dataset,
             label_names=label_names,
@@ -86,6 +93,10 @@ def test_with_checkpoints(params_list,
             wandb_run_name=wandb_run_name,
             **parameters
         )
+
+        if use_wandb:
+            wandb_run.finish()
+
         test_results[f'run{run}'] = {
             'parameters': parameters,
             'result': result,
