@@ -22,6 +22,8 @@ def run_test(
         balancing_upper_limit=0.75,
         balancing_range=0.20,
         entities_names=None,
+        use_wandb = False,
+        wandb_run_name = None,
         ):
     #dataset
     treino, teste = train_test_split(dataset,
@@ -48,7 +50,9 @@ def run_test(
     trainer = NM_Trainer(treino, teste,
                         label_names=label_names,
                         metric=metric,
-                        tokenizer=tokenizer)
+                        tokenizer=tokenizer,
+                        use_wandb=use_wandb,
+                        wandb_run_name=wandb_run_name,)
     trainer.train()
 
     return trainer.return_metrics()
@@ -61,7 +65,8 @@ def test_with_checkpoints(params_list,
                         metric,
                         entities_names=None,
                         output_dir='checkpoints/',
-                        step=0.1):
+                        step=0.1,
+                        use_wandb=False):
     step = round(len(params_list)*step)
     checkpoints = [x for x in range(step, len(params_list)-step, step)]
     test_results = {}
@@ -69,20 +74,23 @@ def test_with_checkpoints(params_list,
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     for parameters in params_list:
+        timestr = time.strftime("%Y%m%d-%H%M%S")
+        run += 1
+        wandb_run_name = f"{timestr}_{run}_" + "_".join([f'{k}-{v}' for k,v in parameters.items()])
         result = run_test(
             dataset=dataset,
             label_names=label_names,
             metric=metric,
             entities_names=entities_names,
+            use_wandb=use_wandb,
+            wandb_run_name=wandb_run_name,
             **parameters
         )
-        run += 1
         test_results[f'run{run}'] = {
             'parameters': parameters,
             'result': result,
         }
         if run in checkpoints:
-            timestr = time.strftime("%Y%m%d-%H%M%S")
             fname = f"{output_dir}{output_name}_{timestr}_run{run}.json"
             dict2json(test_results, fname, sort_keys=False, indent=2)
 
