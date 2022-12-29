@@ -33,7 +33,7 @@ def json2dict(fname: str, mode='r', encoding='utf8'):
     return data
 
 
-def dict2json(data: list[dict], fname: str,
+def dict2json(data: list, fname: str,
                 sort_keys=False, indent=None):
     """Saves the data in a json file
     Args:

@@ -1,6 +1,8 @@
-def balance_datasets(d1: list[dict], d2: list[dict], upper_limit=0.75,
+def balance_datasets(d1: list, d2: list, upper_limit=0.75,
                     balancing_range=0.2, names_list=None):
     """Balance NM NER dataset
+    Args:
+    d1, d2 (list[dict]): entities dict from __count_entities:
     """
     # entities in each dataset
     entities_d1, entities_d2 = (__count_entities(d1, names_list),
