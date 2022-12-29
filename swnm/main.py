@@ -4,11 +4,20 @@ import pathlib
 import numpy as np
 from datasets import load_metric
 from transformers import AutoTokenizer
+import wandb
 
 from pipeline import test_with_checkpoints
-from src.utils import 
+from src.utils import json2dict
 
 if __name__ == "__main__":
+    wandb.login()
+    wandb_config = {
+            "project": "SWNM",
+            "entity": "chinagab",
+            "api_key": "7d7deda5ab99137996e34e47dc688b1d6b4d179c",
+            "log_config": True
+    }
+
     current_dir = str(pathlib.Path(__file__).parent.resolve()) + "/"
     data_path = current_dir + "NM_dataset.json"
     dataset = [doc for doc in json2dict(data_path)]
@@ -44,4 +53,6 @@ if __name__ == "__main__":
                             metric=metric,
                             entities_names=entities_names,
                             output_dir=current_dir+"checkpoints/",
-                            step=0.05)
+                            step=0.05,
+                            use_wandb=True,
+                            wandb_config=wandb_config,)

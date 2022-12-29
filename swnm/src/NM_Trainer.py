@@ -14,7 +14,9 @@ class NM_Trainer():
                 label_names: str,
                 metric,
                 entities_names: str = None,
-                tokenizer = None
+                tokenizer = None,
+                use_wandb = False,
+                wandb_run_name = None,
                 ) -> None:
         self.treino = treino
         self.teste = teste
@@ -26,6 +28,9 @@ class NM_Trainer():
             self.tokenizer = AutoTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased',
                                                             do_lower_case=False)
         self.trainer = self.__get_trainer()
+        if use_wandb:
+            setattr(self.trainer.args, "report_to", "wandb")
+            self.__set_wandb_run_name(wandb_run_name)
 
     def train(self):
         return self.trainer.train()
@@ -106,3 +111,10 @@ class NM_Trainer():
         )
 
         return trainer
+
+
+    def __set_wandb_run_name(self, run_name: str):
+        if run_name is None:
+            run_name = "huggingface"
+
+        setattr(self.trainer.args, "run_name", run_name)
