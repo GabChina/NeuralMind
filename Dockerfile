@@ -17,15 +17,21 @@ RUN apt install software-properties-common -y && add-apt-repository ppa:deadsnak
 RUN ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
 
 # Install python3.9
-RUN apt-get install python3.9 -y
+RUN apt-get install python3.9 -y && apt-get install python3.9-distutils -y
 
 #Verifies python version
 RUN python3 --version && python3.9 --version
 
 # Upgrade pip
-RUN python3.9 -m pip install --upgrade pip
+#RUN python3.9 -m pip install --upgrade pip
 
 #RUN export  PATH="$PATH:/usr/lib/python3.9"
 RUN rm -f /usr/lib/python && ln -s /usr/lib/python /usr/lib/python3
+
+# Upgrade pip
+RUN python3.9 -m pip install --upgrade pip
+
+RUN pip install --upgrade setuptools
+
 # Pip install requirements
 RUN python3.9 -m pip install -r requirements.txt
