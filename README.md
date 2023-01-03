@@ -1,6 +1,8 @@
 # SWNM - Sliding Window Pipeline
 This repository started to keep track of the NM Sliding Window Pipeline for training the main BERT model.
 
+Note that currently you can't close the ssh connection before the script finishes.
+
 ## Connect to DGX
 1. Connect using SSH:
 ```sh
@@ -46,5 +48,3 @@ gdown [dataset-gdown-link]
 ```sh
 python3 -m main
 ```
-
-Note that currently you can't close the ssh connection before the script finishes.
