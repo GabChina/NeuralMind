@@ -80,9 +80,10 @@ def test_with_checkpoints(params_list,
         timestr = time.strftime("%Y%m%d-%H%M%S")
         run += 1
         wandb_run_name = f"{timestr}_{run}_" + "_".join([f'{k}-{v}' for k,v in parameters.items()])
-        
+
         if use_wandb:
-            wandb_run = wandb.init(reinit=True, config=wandb_config)
+            wandb_run = wandb.init(reinit=True, name=wandb_run_name,
+                                    config=wandb_config)
 
         result = run_test(
             dataset=dataset,
