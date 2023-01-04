@@ -16,10 +16,10 @@ from src.utils import json2dict
 if __name__ == "__main__":
     wandb.login()
     wandb_config = {
-            "project": "PBT_Optimization_Project",
-            "entity": "chinagab",
-            "api_key": "7d7deda5ab99137996e34e47dc688b1d6b4d179c",
-            "log_config": True
+        "project": "PBT_Optimization_Project",
+        "entity": "chinagab",
+        "api_key": "7d7deda5ab99137996e34e47dc688b1d6b4d179c",
+        "log_config": True
     }
 
     current_dir = str(pathlib.Path(__file__).parent.resolve()) + "/"
@@ -38,17 +38,20 @@ if __name__ == "__main__":
         6: 'I-COMECO_RECORTE',
     }
 
+    def my_objective(metrics):
+        return metrics["eval_f1"]
+
     pbt_scheduler = PopulationBasedTraining(
-    time_attr='training_iteration',
-    metric=my_objective,
-    mode='max',
-    perturbation_interval=600.0,
-    hyperparam_mutations={
-        "learning_rate": tune.loguniform(6e-6, 1e-3),
-        "num_train_epochs": tune.choice(range(5, 15)),
-        #"seed": tune.choice(range(1, 41)),
-        "per_device_train_batch_size": tune.choice([4, 8, 16]),
-    })
+        time_attr='training_iteration',
+        metric=my_objective,
+        mode='max',
+        perturbation_interval=600.0,
+        hyperparam_mutations={
+            "learning_rate": tune.loguniform(6e-6, 1e-3),
+            "num_train_epochs": tune.choice(range(5, 15)),
+            # "seed": tune.choice(range(1, 41)),
+            "per_device_train_batch_size": tune.choice([4, 8, 16]),
+        })
 
     run_pbt(pbt_scheduler=pbt_scheduler,
             dataset=dataset,
