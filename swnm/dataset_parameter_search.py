@@ -12,10 +12,10 @@ from src.utils import json2dict
 if __name__ == "__main__":
     wandb.login()
     wandb_config = {
-            "project": "SWNM",
-            "entity": "chinagab",
-            "api_key": "7d7deda5ab99137996e34e47dc688b1d6b4d179c",
-            "log_config": True
+        "project": "SWNM",
+        "entity": "chinagab",
+        "api_key": "7d7deda5ab99137996e34e47dc688b1d6b4d179c",
+        "log_config": True
     }
 
     current_dir = str(pathlib.Path(__file__).parent.resolve()) + "/"
