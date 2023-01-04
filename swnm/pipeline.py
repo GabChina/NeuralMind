@@ -11,21 +11,21 @@ from src.tokenizing import tokenize_dataset
 from src.utils import dict2json
 
 
-def run_test(
-        dataset: dict,
-        label_names,
-        metric,
-        balance=True,
-        stride=0,
-        tokenizer=None,
-        test_size=0.2,
-        random_state=42,
-        balancing_upper_limit=0.75,
-        balancing_range=0.20,
-        entities_names=None,
-        use_wandb = False,
-        wandb_run_name = None,
-        ):
+def get_trainer(
+                dataset: dict,
+                label_names,
+                metric,
+                balance=True,
+                stride=0,
+                tokenizer=None,
+                test_size=0.2,
+                random_state=42,
+                balancing_upper_limit=0.75,
+                balancing_range=0.20,
+                entities_names=None,
+                use_wandb = False,
+                wandb_run_name = None,
+                ):
     #dataset
     treino, teste = train_test_split(dataset,
                                     test_size=test_size,
@@ -47,13 +47,44 @@ def run_test(
     teste = tokenize_dataset(teste, tokenizer,
                                 stride=stride)
 
-    #treino
     trainer = NM_Trainer(treino, teste,
                         label_names=label_names,
                         metric=metric,
                         tokenizer=tokenizer,
                         use_wandb=use_wandb,
                         wandb_run_name=wandb_run_name,)
+
+    return trainer
+
+def run_test(
+        dataset: dict,
+        label_names,
+        metric,
+        balance=True,
+        stride=0,
+        tokenizer=None,
+        test_size=0.2,
+        random_state=42,
+        balancing_upper_limit=0.75,
+        balancing_range=0.20,
+        entities_names=None,
+        use_wandb = False,
+        wandb_run_name = None,
+        ):
+    trainer = get_trainer(dataset=dataset,
+                        label_names=label_names,
+                        metric=metric,
+                        balance=balance,
+                        stride=stride,
+                        tokenizer=tokenizer,
+                        test_size=test_size,
+                        random_state=random_state,
+                        balancing_upper_limit=balancing_upper_limit,
+                        balancing_range=balancing_range,
+                        entities_names=entities_names,
+                        use_wandb = use_wandb,
+                        wandb_run_name = wandb_run_name,)
+
     trainer.train()
 
     return trainer.return_metrics()
@@ -111,3 +142,4 @@ def test_with_checkpoints(params_list,
                 sort_keys=False, indent=2)
 
     return test_results
+
