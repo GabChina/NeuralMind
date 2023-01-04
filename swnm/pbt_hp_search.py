@@ -57,13 +57,7 @@ if __name__ == "__main__":
             dataset=dataset,
             label_names=label_names,
             metric=metric,
-            balance=True,
-            stride=0,
             tokenizer=tokenizer,
-            test_size=0.2,
-            random_state=42,
-            balancing_upper_limit=0.75,
-            balancing_range=0.20,
             entities_names=entities_names,
             use_wandb = True,
             wandb_config=wandb_config,)
