@@ -46,5 +46,9 @@ gdown [dataset-gdown-link]
 
 6. Run main script
 ```sh
-python3 -m main
+python3 -m dataset_parameter_search
+```
+or
+```sh
+python3 -m pbt_hp_search
 ```
