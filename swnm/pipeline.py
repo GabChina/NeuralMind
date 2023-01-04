@@ -143,3 +143,42 @@ def test_with_checkpoints(params_list,
 
     return test_results
 
+
+def run_pbt(
+        pbt_scheduler,
+        dataset: dict,
+        label_names,
+        metric,
+        balance=True,
+        stride=0,
+        tokenizer=None,
+        test_size=0.2,
+        random_state=42,
+        balancing_upper_limit=0.75,
+        balancing_range=0.20,
+        entities_names=None,
+        use_wandb = False,
+        wandb_config=None,
+        ):
+    trainer = get_trainer(dataset=dataset,
+                        label_names=label_names,
+                        metric=metric,
+                        balance=balance,
+                        stride=stride,
+                        tokenizer=tokenizer,
+                        test_size=test_size,
+                        random_state=random_state,
+                        balancing_upper_limit=balancing_upper_limit,
+                        balancing_range=balancing_range,
+                        entities_names=entities_names,)
+
+    if use_wandb:
+        wandb.init(reinit=True,config=wandb_config)
+
+    best_trial = trainer.hyperparameter_search(
+        direction="maximize",
+        backend="ray",
+        scheduler=pbt_scheduler,
+    )
+
+    return best_trial
