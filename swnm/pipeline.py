@@ -175,7 +175,7 @@ def run_pbt(
     if use_wandb:
         wandb.init(reinit=True,config=wandb_config)
 
-    best_trial = trainer.hyperparameter_search(
+    best_trial = trainer.trainer.hyperparameter_search(
         direction="maximize",
         backend="ray",
         scheduler=pbt_scheduler,
