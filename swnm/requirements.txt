@@ -1,6 +1,6 @@
 datasets==2.7.1
 gdown
-#ray[tune]==2.2.0
+ray[tune]==2.2.0
 seqeval
 tensorflow-gpu
 tokenizers==0.13.2
