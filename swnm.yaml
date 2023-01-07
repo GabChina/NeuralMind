@@ -1,0 +1,27 @@
+services:
+  aluno_gabrieldamata-neuralmind:
+    image: swnm
+
+    ports:
+      - 8888:8888
+
+    volumes:
+      - /raid/gabriel_da_mata/neuralmind/swnm:/home/app/checkpoints
+
+    command: wandb login 7d7deda5ab99137996e34e47dc688b1d6b4d179c --relogin && jupyter lab --allow-root --ip '*' --port 8888
+
+    deploy:
+      resources:
+        limits:
+          cpus: '8.0'
+          memory: 64g
+        reservations:
+          cpus: '8.0'
+          memory: 32g
+          devices:
+          - driver: nvidia
+            device_ids: ['5']
+            capabilities: [gpu]
+
+volumes:
+  /raid/gabriel_da_mata/neuralmind/swnm

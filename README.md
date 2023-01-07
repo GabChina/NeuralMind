@@ -19,12 +19,13 @@ sudo docker build -t swnm:latest . --force-rm --no-cache
 ```sh
 sudo docker run -it -d \
 --name="aluno_gabrieldamata-neuralmind" \
---rm \
 --cpus="8.0" \
 --gpus device=5 \
 --memory="64g" \
+-p 8888:8888 \
 -v /raid/gabriel_da_mata/neuralmind/swnm:/home/app/checkpoints \
-swnm
+swnm \
+/bin/bash -c "wandb login 7d7deda5ab99137996e34e47dc688b1d6b4d179c --relogin && jupyter lab --allow-root --ip '*' --port 8888"
 ```
 
 3. Enter exec mode using the container ID
