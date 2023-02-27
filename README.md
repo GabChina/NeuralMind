@@ -37,12 +37,12 @@ docker exec -it [container-id] /bin/bash
 
 4. Login to wandb
 ```sh
-wandb login [wandb-key] --relogin
+wandb login 7d7deda5ab99137996e34e47dc688b1d6b4d179c --relogin
 ```
 
 5. Download the dataset
 ```sh
-gdown [dataset-gdown-link]
+gdown "1XYdcOxnr-esES8bwKezTb6MYMfhQQriW"
 ```
 
 6. Run main script
